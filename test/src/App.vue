@@ -5,7 +5,7 @@
       <span id="requirements">Requirements</span>
     </div>
     <div id="line"></div>
-    <img id="logo" src="./assets/idk.png" />
+    <img id="logo" src="./assets/logo.png" />
     <div id="header">
       <h1 class="text-center text-white">Testimonium</h1>
       <p class="text-center sub-header">
