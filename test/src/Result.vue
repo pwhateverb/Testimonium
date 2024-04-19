@@ -7,7 +7,6 @@
       @click="toggleTestCases(fr.requirement_id)"
     >
       <h2>{{ fr.requirement_id }}</h2>
-      <p>Description: {{ fr.description }}</p>
       <div class="test-cases" v-show="selectedFR === fr.requirement_id">
         <h3>Test Cases:</h3>
         <ul>
@@ -23,14 +22,13 @@
         </ul>
       </div>
     </div>
-    <div id="button" @click="downloadPDF()">
-      <button type="button" class="btn btn-danger upload_pdf">
+    <div class="button" @click="downloadPDF()">
+      <button type="button" class="btn btn-danger download_pdf">
         Download PDF
       </button>
     </div>
   </div>
 </template>
-
 <script>
 import jsPDF from "jspdf";
 export default {
@@ -38,7 +36,7 @@ export default {
   data() {
     return {
       selectedFR: null,
-      functionalRequirements: {},
+      functionalRequirements: [],
     };
   },
   methods: {
@@ -65,7 +63,13 @@ export default {
   mounted() {
     document.body.style.backgroundImage =
       "linear-gradient(to right, #696b6d, #3a6073)";
-    this.functionalRequirements = sessionStorage.getItem("tests");
+    let tests = sessionStorage.getItem("tests");
+    console.log("T:", JSON.stringify(tests));
+    if (typeof tests === "object") {
+      this.functionalRequirements = tests.requirements;
+    } else {
+      this.functionalRequirements = JSON.parse(tests).requirements;
+    }
   },
 };
 </script>
@@ -90,7 +94,7 @@ export default {
   border-radius: 5px;
   margin-top: 10px;
 }
-#button {
+.button {
   display: flex;
   justify-content: center;
   margin-bottom: 50px;

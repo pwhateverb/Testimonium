@@ -52,7 +52,9 @@ export default {
   data() {
     return {
       backgroundImage: require("@/assets/background.png"),
-      requirements: "FR1: The user shall be able to view and manage plants",
+      requirements:
+        "FR1: The user shall be able to view and manage plants" +
+        "FR2: The system shall provide onboarding to show how to use the app",
     };
   },
   methods: {
@@ -62,7 +64,7 @@ export default {
         .get("http://127.0.0.1:5000?requirements=" + encodedRequirements)
         .then((response) => {
           sessionStorage.setItem("tests", JSON.stringify(response.data));
-          console.log("Tests:", process.env.TESTS);
+          console.log("Tests:", sessionStorage.getItem("tests"));
           this.$router.push("/result");
         })
         .catch((error) => {

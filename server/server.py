@@ -1,6 +1,7 @@
 from flask import Flask
 import json
 import llm
+import sys
 
 from flask import request
 
@@ -22,8 +23,9 @@ CORS(app, **cors_config)
 
 @app.get("/")
 def get_tests():
-    print(request.args.get("requirements"))
-    return string_to_json(llm.generate_tests(request.args.get("requirements")))
+    json_response = string_to_json(llm.generate_tests(request.args.get("requirements")))
+    print(json_response, file=sys.stdout)
+    return json_response
 
 
 def string_to_json(string):
