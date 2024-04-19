@@ -2,16 +2,19 @@
   <div id="app">
     <div
       class="card"
-      v-for="(fr, frKey) in functionalRequirements"
-      :key="frKey"
-      @click="toggleTestCases(frKey)"
+      v-for="(fr, index) in functionalRequirements"
+      :key="index"
+      @click="toggleTestCases(fr.requirement_id)"
     >
-      <h2>{{ frKey }}</h2>
+      <h2>{{ fr.requirement_id }}</h2>
       <p>Description: {{ fr.description }}</p>
-      <div class="test-cases" v-show="selectedFR === frKey">
+      <div class="test-cases" v-show="selectedFR === fr.requirement_id">
         <h3>Test Cases:</h3>
         <ul>
-          <li v-for="(testCase, index) in fr.test_cases" :key="index">
+          <li
+            v-for="(testCase, testCaseIndex) in fr.test_cases"
+            :key="testCaseIndex"
+          >
             <div class="test">
               <strong>Description:</strong> {{ testCase.description }}<br />
               <strong>Expected Result:</strong> {{ testCase.expected_result }}
@@ -35,7 +38,7 @@ export default {
   data() {
     return {
       selectedFR: null,
-      functionalRequirements: process.env.TESTS,
+      functionalRequirements: {},
     };
   },
   methods: {
@@ -62,6 +65,7 @@ export default {
   mounted() {
     document.body.style.backgroundImage =
       "linear-gradient(to right, #696b6d, #3a6073)";
+    this.functionalRequirements = process.env.TESTS;
   },
 };
 </script>

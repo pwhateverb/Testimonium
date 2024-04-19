@@ -8,27 +8,33 @@ def generate_tests(requirements):
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
 
     test_schema = {
-        "requirement_id": {
-            "type": "string",
-            "description": "The ID of the requirement.",
-        },
-        "test_cases": {
+        "requirements": {
             "type": "array",
-            "description": "The test cases for the requirement.",
+            "description": "The requirements for which to generate test cases.",
             "items": {
-                "type": "object",
-                "properties": {
-                    "description": {
-                        "type": "string",
-                        "description": "The description of the test case.",
-                    },
-                    "expected_result": {
-                        "type": "string",
-                        "description": "The expected result of the test case.",
+                "requirement_id": {
+                    "type": "string",
+                    "description": "The unique ID of the requirement.",
+                },
+                "test_cases": {
+                    "type": "array",
+                    "description": "The test cases for the requirement.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string",
+                                "description": "The description of the test case.",
+                            },
+                            "expected_result": {
+                                "type": "string",
+                                "description": "The expected result of the test case.",
+                            },
+                        },
                     },
                 },
             },
-        },
+        }
     }
 
     completion = client.chat.completions.create(
@@ -40,7 +46,7 @@ def generate_tests(requirements):
                 + requirements
                 + "\n\nPlease generate test cases for the requirements. YOU MUST ANSWER IN THE FOLLOWING JSON FORMAT:\n\n"
                 + json.dumps(test_schema, indent=4)
-                + "\n\n",
+                + "\n\nMake sure there's ONLY ONE JSON OBJECT in the response.",
             }
         ],
         tools=[
