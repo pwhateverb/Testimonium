@@ -16,8 +16,11 @@
     <button type="button" class="btn btn-outline-light txt_reqs">
       Write<br />Requirements
     </button>
-    <button type="button" class="btn btn-danger upload_pdf">Upload PDF</button>
-
+    <div @click="generate()">
+      <button type="button" class="btn btn-danger upload_pdf">
+        Upload PDF
+      </button>
+    </div>
     <div
       id="background"
       class="p-5 text-center bg-image"
@@ -42,12 +45,26 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "App",
   data() {
     return {
       backgroundImage: require("@/assets/background.png"),
+      requirements: `FR1: The user shall be able to view and manage plants
+      FR2: The system shall notify the user when the conditions for a plant (moisture, temperature, humidity or light) are not perfect`,
     };
+  },
+  methods: {
+    generate() {
+      axios
+        .get("http://localhost:5000/" + this.requirements)
+        .then((response) => {
+          process.env.TESTS = response.data;
+          this.$router.push("/result-page");
+        });
+    },
   },
 };
 </script>
