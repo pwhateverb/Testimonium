@@ -61,7 +61,7 @@ export default {
       axios
         .get("http://127.0.0.1:5000?requirements=" + encodedRequirements)
         .then((response) => {
-          process.env.TESTS = response.data.requirements;
+          sessionStorage.setItem("tests", JSON.stringify(response.data));
           console.log("Tests:", process.env.TESTS);
           this.$router.push("/result");
         })

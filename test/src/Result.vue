@@ -65,7 +65,7 @@ export default {
   mounted() {
     document.body.style.backgroundImage =
       "linear-gradient(to right, #696b6d, #3a6073)";
-    this.functionalRequirements = process.env.TESTS;
+    this.functionalRequirements = sessionStorage.getItem("tests");
   },
 };
 </script>
